@@ -1,4 +1,3 @@
-// /pages/api/products.js
 export default async function handler(req, res) {
   const BASE_URL = 'https://course.summitglobal.id/products';
 
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
         body: JSON.stringify(req.body),
       });
       const data = await response.json();
-      return res.status(response.status).json(data.body?.data || data);
+      return res.status(response.status).json(data.body?.data || []);
     }
 
     if (req.method === 'PUT') {
@@ -24,10 +23,10 @@ export default async function handler(req, res) {
       const response = await fetch(`${BASE_URL}?id=${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(req.body), // full product object required
+        body: JSON.stringify(req.body),
       });
       const data = await response.json();
-      return res.status(response.status).json(data.body?.data || data);
+      return res.status(response.status).json(data.body?.data || []);
     }
 
     if (req.method === 'DELETE') {
@@ -37,7 +36,7 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
-      return res.status(response.status).json(data.body?.data || data);
+      return res.status(response.status).json(data.body?.data || true);
     }
 
     return res.status(405).json({ error: 'Method not allowed' });

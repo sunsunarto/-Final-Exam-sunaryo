@@ -17,7 +17,6 @@ export default function LayoutApp({ children }) {
         color: theme === 'dark' ? '#f0f0f0' : '#000000',
       }}
     >
-      {/* Header */}
       <Header
         style={{
           display: 'flex',
@@ -35,11 +34,7 @@ export default function LayoutApp({ children }) {
           <ThemeToggle />
         </div>
       </Header>
-
-      {/* Page Content */}
       <Content style={{ padding: 24 }}>{children}</Content>
-
-      {/* Footer */}
       <Footer
         style={{
           textAlign: 'center',

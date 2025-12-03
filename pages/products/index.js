@@ -1,4 +1,3 @@
-// /pages/products/index.js
 import { useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Space, Skeleton, message } from 'antd';
 import { fetchProducts, createProduct, updateProduct, setProductOutOfStock } from '../../lib/api';
@@ -76,7 +75,7 @@ export default function ProductsPage({ initialProducts }) {
 
   const handleSetInactive = async (product) => {
     try {
-      await setProductOutOfStock(product.id, product); // full payload + stock:0
+      await setProductOutOfStock(product.id, product);
       message.success('Product set inactive');
       refresh();
     } catch {
@@ -84,7 +83,6 @@ export default function ProductsPage({ initialProducts }) {
     }
   };
 
-  // 👇 Auto-refresh when page mounts
   useEffect(() => {
     refresh();
   }, []);

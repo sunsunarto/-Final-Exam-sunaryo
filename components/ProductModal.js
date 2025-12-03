@@ -1,4 +1,3 @@
-// /components/ProductModal.js
 import { Modal, Form, Input, InputNumber } from 'antd';
 import { useEffect } from 'react';
 
@@ -21,12 +20,10 @@ export default function ProductModal({ open, onCancel, onSubmit, initialValues }
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
-      // Ensure full payload to prevent overwrite/loss
       const payload = { ...initialShape, ...values };
       await onSubmit(payload);
       form.resetFields();
     } catch (e) {
-      // validation errors handled by AntD
     }
   };
 

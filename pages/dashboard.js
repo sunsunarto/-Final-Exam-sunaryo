@@ -1,4 +1,3 @@
-// /pages/dashboard.js
 import { useEffect, useState } from 'react';
 import { Card, Col, Row, Skeleton, Tag, Typography } from 'antd';
 

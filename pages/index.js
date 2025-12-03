@@ -1,15 +1,12 @@
-// /pages/index.js
 import Link from 'next/link';
 import { Card, Col, Row, Typography, Button } from 'antd';
 import { useApp } from '../context/AppContext';
-import ThemeToggle from '../components/ThemeToggle';
 
 const { Title, Paragraph } = Typography;
 
 export default function HomePage() {
   const { theme, toggleTheme } = useApp();
 
-  // Apply theme styles dynamically
   const pageStyle = {
     padding: 24,
     backgroundColor: theme === 'dark' ? '#1f1f1f' : '#ffffff',

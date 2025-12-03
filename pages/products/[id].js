@@ -1,4 +1,3 @@
-// /pages/products/[id].js
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button, Card, Image, Skeleton, Space, Tag } from 'antd';

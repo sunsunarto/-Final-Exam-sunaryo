@@ -1,4 +1,3 @@
-// /pages/dashboard-categories.js
 import { Card, Tag } from 'antd';
 
 export async function getStaticProps() {
