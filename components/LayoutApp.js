@@ -1,4 +1,3 @@
-// /components/LayoutApp.js
 import { Layout } from 'antd';
 import ThemeToggle from './ThemeToggle';
 import Link from 'next/link';
@@ -23,18 +22,23 @@ export default function LayoutApp({ children }) {
           justifyContent: 'space-between',
           alignItems: 'center',
           backgroundColor: theme === 'dark' ? '#141414' : '#fafafa',
+          padding: '0 24px',
         }}
       >
         <div style={{ fontWeight: 'bold', color: theme === 'dark' ? '#f0f0f0' : '#000000' }}>
           Summit Global Course App
         </div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
+          <ThemeToggle />
+        </div>
         <div style={{ display: 'flex', gap: '1rem' }}>
           <Link href="/products">Products</Link>
           <Link href="/dashboard">Dashboard</Link>
-          <ThemeToggle />
         </div>
       </Header>
+
       <Content style={{ padding: 24 }}>{children}</Content>
+
       <Footer
         style={{
           textAlign: 'center',
