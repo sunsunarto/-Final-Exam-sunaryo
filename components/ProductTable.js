@@ -1,85 +1,62 @@
-import { Button, Image, Table, Tag, Space, Modal, Descriptions } from 'antd';
+import { Button, Image, Tag, Space, Modal, Descriptions, Card, Row, Col } from 'antd';
 import { useState } from 'react';
 
-export default function ProductTable({ data, onEdit, onDelete }) {
+export default function ProductCards({ data, onEdit, onDelete }) {
   const [viewing, setViewing] = useState(null);
 
-  const columns = [
-    {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      render: (src) =>
-        src ? (
-          <Image width={48} src={src} alt="product" />
-        ) : (
-          <Tag color="default">None</Tag>
-        ),
-    },
-    {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text) => text || <Tag color="default">No name</Tag>,
-    },
-    {
-      title: 'Category',
-      dataIndex: 'category',
-      key: 'category',
-      render: (text) => text || <Tag color="default">Uncategorized</Tag>,
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-      render: (v) =>
-        typeof v === 'number'
-          ? Intl.NumberFormat('id-ID').format(v)
-          : <Tag color="default">N/A</Tag>,
-    },
-    {
-      title: 'Stock',
-      dataIndex: 'stock',
-      key: 'stock',
-      render: (s) =>
-        s === 0 ? <Tag color="red">Out of stock</Tag> : s ?? <Tag>N/A</Tag>,
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Space>
-          <Button onClick={() => onEdit(record)}>Edit</Button>
-          <Button
-            danger
-            onClick={() => {
-              Modal.confirm({
-                title: 'Delete product?',
-                content: 'This will permanently remove the product.',
-                okText: 'Confirm',
-                onOk: () => onDelete(record),
-              });
-            }}
-          >
-            Delete
-          </Button>
-          <Button type="link" onClick={() => setViewing(record)}>
-            View Details
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+  const renderCard = (item) => (
+    <Col key={item.id || item.name} xs={24} sm={12} md={8} style={{ marginBottom: 16 }}>
+      <Card
+        hoverable
+        cover={
+          item.image ? (
+            <Image src={item.image} alt="product" width="100%" height={200} style={{ objectFit: 'cover' }} />
+          ) : (
+            <div style={{ height: 200, background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Tag color="default">No Image</Tag>
+            </div>
+          )
+        }
+      >
+        <Card.Meta
+          title={item.name || <Tag color="default">No name</Tag>}
+          description={
+            <>
+              <div><strong>Category:</strong> {item.category || <Tag color="default">Uncategorized</Tag>}</div>
+              <div><strong>Price:</strong> {typeof item.price === 'number' ? `Rp ${Intl.NumberFormat('id-ID').format(item.price)}` : <Tag color="default">N/A</Tag>}</div>
+              <div><strong>Stock:</strong> {item.stock === 0 ? <Tag color="red">Out of stock</Tag> : item.stock ?? <Tag>N/A</Tag>}</div>
+              <Space style={{ marginTop: 12 }}>
+                <Button size="small" onClick={() => onEdit(item)}>Edit</Button>
+                <Button
+                  size="small"
+                  danger
+                  onClick={() =>
+                    Modal.confirm({
+                      title: 'Delete product?',
+                      content: 'This will permanently remove the product.',
+                      okText: 'Confirm',
+                      onOk: () => onDelete(item),
+                    })
+                  }
+                >
+                  Delete
+                </Button>
+                <Button size="small" type="link" onClick={() => setViewing(item)}>
+                  View Details
+                </Button>
+              </Space>
+            </>
+          }
+        />
+      </Card>
+    </Col>
+  );
 
   return (
     <>
-      <Table
-        rowKey={(record) => record.id || record.name || Math.random()}
-        columns={columns}
-        dataSource={Array.isArray(data) ? data : []}
-        pagination={{ pageSize: 10 }}
-        rowClassName={(record) => (record.stock === 0 ? 'row-out' : '')}
-      />
+      <Row gutter={[16, 16]}>
+        {Array.isArray(data) ? data.map(renderCard) : null}
+      </Row>
 
       {/* Details Modal */}
       <Modal
@@ -101,7 +78,7 @@ export default function ProductTable({ data, onEdit, onDelete }) {
             <Descriptions.Item label="Category">{viewing.category || '-'}</Descriptions.Item>
             <Descriptions.Item label="Price">
               {typeof viewing.price === 'number'
-                ? Intl.NumberFormat('id-ID').format(viewing.price)
+                ? `Rp ${Intl.NumberFormat('id-ID').format(viewing.price)}`
                 : '-'}
             </Descriptions.Item>
             <Descriptions.Item label="Stock">
